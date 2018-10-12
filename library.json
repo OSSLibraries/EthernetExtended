@@ -1,0 +1,14 @@
+{
+  "name": "EthernetExtended",
+  "version": "0.0.1",
+  "keywords": "ethernet, extension, W5100",
+  "description": "Extension for Arduino Ethernet Library; support only for W5100",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/OSSLibraries/EthernetExtended.git"
+  },
+  "exclude": "doc",
+  "frameworks": "arduino",
+  "platforms": ["atmelavr"]
+}
