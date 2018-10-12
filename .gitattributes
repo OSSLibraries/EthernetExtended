@@ -1,0 +1,9 @@
+.github/ export-ignore
+.gitattribute export-ignore
+.gitignore export-ignore
+
+.travis.yml export-ignore
+.reviewdog.yml export-ignore
+
+doc/*.doc export-ignore
+
