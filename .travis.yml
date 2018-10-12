@@ -2,6 +2,12 @@ language: python
 python:
   - '2.7'
 
+# Blacklist
+branches:
+  except:
+    - gh-pages
+
+# Limit clone depth, does it speed up the build?
 git:
   depth: false
   
@@ -21,7 +27,16 @@ env:
     - VERSION=1.84
     - NAMEVER=cppcheck-${VERSION}
     - CACHED=$HOME/cached 
-
+    # arduino scripts
+    - CONFIG_KEYWORDS_NAME="Travis CI - Keywords Bot"
+    - CONFIG_KEYWORDS_EMAIL=travis@example.com
+    - CONFIG_KEYWORDS_BRANCH=master
+    - CONFIG_VERSION_NAME="Travis CI - Version Bot"
+    - CONFIG_VERSION_EMAIL="$CONFIG_KEYWORDS_EMAIL"
+    - CONFIG_VERSION_BRANCH="$CONFIG_KEYWORDS_BRANCH"
+    - CONFIG_CHANGELOG_NAME="Travis CI - Changelog Bot"
+    - CONFIG_CHANGELOG_EMAIL="$CONFIG_KEYWORDS_EMAIL"
+    - CONFIG_CHANGELOG_BRANCH="$CONFIG_KEYWORDS_BRANCH"
   matrix:
     # add examples here and define which boards should be tested (only compile test)
     - PLATFORMIO_CI_SRC=examples/ABC/ABC.ino TESTBOARD=arduino_avr
@@ -44,17 +59,25 @@ install:
     - pip install -U platformio
 
 script:
-    # short the string comparison
-    #- stringContain() { [ -z "${2##*$1*}" ]; }
-    # selectable board tests @Rotzbua
-    # prints only warnings and errors, to show all remove "1>/dev/null"
-    #- board="arduino_avr";  if stringContain "$board" "$TESTBOARD"; then echo "check board $board"; output=$(platformio ci -v --lib=. --board=uno --board=megaatmega1280); echo "--<Result>--"; echo "$output"; else echo "skip board test of $board"; fi
-    #- board="arduino_arm";  if stringContain "$board" "$TESTBOARD"; then echo "check board $board"; output=$(platformio ci -v --lib=. --board=due --board=zero); echo "--<Result>--"; echo "$output" | grep -i -E "^(Device|Data|Program|text|[0-9])"; else echo "skip board test of $board"; fi
-    #- board="teensy";  if stringContain "$board" "$TESTBOARD"; then echo "check board $board"; output=$(platformio ci -v --lib=. --board=teensy20 --board=teensy31); echo "--<Result>--"; echo "$output" | grep -i -E "^(Device|Data|Program|text|[0-9])"; else echo "skip board test of $board"; fi
-    #- board="esp";  if stringContain "$board" "$TESTBOARD"; then echo "check board $board"; output=$(platformio ci -v --lib=. --board=d1_mini); echo "--<Result>--"; echo "$output" | grep -i -E "^(Device|Data|Program|text|[0-9])"; else echo "skip board test of $board"; fi
     #- bash ./.build.sh
     - source <(curl -SLs  https://raw.githubusercontent.com/TestGithubIntegration/mfrc522/add_gitattribute/.cppcheck.sh)
    #######################
     #- platformio ci --lib=. --board=uno 
     - reviewdog -conf=.reviewdog.yml -reporter=github-pr-check
 
+#after_success:
+deploy:
+  - provider: script
+    script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_keywords.sh)
+    on:
+      #branch: dev
+      branch: master
+      #all_branches: true
+  - provider: script
+    script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_version.sh)
+    on:
+      branch: master
+  - provider: script
+    script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_changelog.sh)
+    on:
+      branch: master
