@@ -68,6 +68,6 @@ script:
 #after_success:
 deploy:
     - provider: script
-      script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_keywords.sh)
+      script: ls -a
       on:
         branch: master
