@@ -60,24 +60,24 @@ install:
 
 script:
     #- bash ./.build.sh
-    - source <(curl -SLs  https://raw.githubusercontent.com/TestGithubIntegration/mfrc522/add_gitattribute/.cppcheck.sh)
+    - source <(curl -SLs https://raw.githubusercontent.com/TestGithubIntegration/mfrc522/add_gitattribute/.cppcheck.sh)
    #######################
     #- platformio ci --lib=. --board=uno 
     - reviewdog -conf=.reviewdog.yml -reporter=github-pr-check
 
 #after_success:
 deploy:
-  - provider: script
-    script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_keywords.sh)
-    on:
-      #branch: dev
-      branch: master
-      #all_branches: true
-  - provider: script
-    script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_version.sh)
-    on:
-      branch: master
-  - provider: script
-    script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_changelog.sh)
-    on:
-      branch: master
+    - provider: script
+      script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_keywords.sh)
+      on:
+        #branch: dev
+        branch: master
+        #all_branches: true
+    - provider: script
+      script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_version.sh)
+      on:
+        branch: master
+    - provider: script
+      script: source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_changelog.sh)
+      on:
+        branch: master
