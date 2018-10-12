@@ -32,7 +32,7 @@ matrix:
 install:
     - python --version
     ## cppcheck
-    - bash .build_cppcheck.sh
+    - source <(curl -SLs https://raw.githubusercontent.com/TestGithubIntegration/mfrc522/add_gitattribute/.build_cppcheck.sh)
     ############
     - eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.10 bash)"
     #############
@@ -53,7 +53,7 @@ script:
     #- board="teensy";  if stringContain "$board" "$TESTBOARD"; then echo "check board $board"; output=$(platformio ci -v --lib=. --board=teensy20 --board=teensy31); echo "--<Result>--"; echo "$output" | grep -i -E "^(Device|Data|Program|text|[0-9])"; else echo "skip board test of $board"; fi
     #- board="esp";  if stringContain "$board" "$TESTBOARD"; then echo "check board $board"; output=$(platformio ci -v --lib=. --board=d1_mini); echo "--<Result>--"; echo "$output" | grep -i -E "^(Device|Data|Program|text|[0-9])"; else echo "skip board test of $board"; fi
     #- bash ./.build.sh
-    - bash ./.cppcheck.sh
+    - source <(curl -SLs  https://raw.githubusercontent.com/TestGithubIntegration/mfrc522/add_gitattribute/.cppcheck.sh)
    #######################
     #- platformio ci --lib=. --board=uno 
     - reviewdog -conf=.reviewdog.yml -reporter=github-pr-check
