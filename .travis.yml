@@ -64,10 +64,6 @@ script:
    #######################
     #- platformio ci --lib=. --board=uno 
     - reviewdog -conf=.reviewdog.yml -reporter=github-pr-check
-
-#after_success:
-deploy:
-    - provider: script
-      script: ls -a
-      on:
-        branch: master
+    - source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_keywords.sh)
+    - source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_version.sh)
+    - source <(curl -SLs https://raw.githubusercontent.com/Rotzbua/test/master/deploy_changelog.sh)
