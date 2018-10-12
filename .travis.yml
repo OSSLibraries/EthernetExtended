@@ -1,0 +1,22 @@
+language: go
+
+git:
+  depth: false
+  
+# Cache PlatformIO packages using Travis CI container-based infrastructure
+sudo: false
+
+env:
+  global:
+    - REVIEWDOG_VERSION="0.9.11"
+
+install:
+    - go get -u github.com/golang/dep/...
+    - go get github.com/client9/misspell/cmd/misspell
+    - mkdir -p ~/bin/ && export export PATH="~/bin/:$PATH"
+    - curl -fSL https://github.com/haya14busa/reviewdog/releases/download/$REVIEWDOG_VERSION/reviewdog_linux_amd64 -o ~/bin/reviewdog && chmod +x ~/bin/reviewdog
+
+script:
+    - reviewdog -list
+    - reviewdog -conf=.reviewdog.yml -reporter=github-pr-check
+    

@@ -1,0 +1,7 @@
+# reviewdog.yml
+
+runner:
+  misspell:
+    cmd: misspell .
+    errorformat:
+      - "%f:%l:%c: %m"
